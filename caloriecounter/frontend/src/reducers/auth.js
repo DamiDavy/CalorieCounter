@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { errorAC } from './errors'
+import { clearRecomendedIntake } from './intake'
 import { SET_MESSAGE } from './success'
 
 const USER_LOADING = 'USER_LOADING'
@@ -72,7 +73,6 @@ export const loadUser = () => (dispatch, getState) => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
       dispatch({ type: AUTH_ERROR })
     })
 }
@@ -107,8 +107,13 @@ export const logoutUser = () => (dispatch, getState) => {
   axios.post('/api/auth/logout', null, addHeaderWithToken(getState))
     .then(() => {
       dispatch({
+        type: SET_MESSAGE,
+        payload: 'Logged Out'
+      })
+      dispatch({
         type: LOGOUT_SUCCESS
       })
+      dispatch(clearRecomendedIntake())
     })
     .catch(error => {
       dispatch(errorAC(error.toJSON().message, error.response.status))

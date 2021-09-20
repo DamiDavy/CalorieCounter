@@ -10,7 +10,7 @@ import { App } from './components/App'
 
 const options = {
   position: positions.TOP_CENTER,
-  timeout: 10000,
+  timeout: 5000,
   offset: '30px'
 }
 

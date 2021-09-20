@@ -15,3 +15,5 @@ export default function (state = initialState, action) {
       return state
   }
 }
+
+export const createSuccessMessage = (mes) => ({ type: SET_MESSAGE, payload: mes })

@@ -59,7 +59,7 @@ export const Register = () => {
     }
   }
 
-  if (isAuth) return <Redirect to="days" />
+  if (isAuth) return <Redirect to="/app/days" />
 
   return (
     <>
@@ -98,7 +98,7 @@ export const Register = () => {
 
       <p>Or</p>
       <p>
-        <Link to='/login'>
+        <Link to='/app/login'>
           <button>Login</button>
         </Link>
       </p>
