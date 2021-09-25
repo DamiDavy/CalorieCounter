@@ -10,8 +10,8 @@ class DailyCalorieIntake(models.Model):
 
 class Category(models.Model):
   title = models.CharField(max_length=64, unique=True)
-  def image(self):
-    return self.foods[0].image
+  image = models.URLField(max_length=150, blank=True)
+
   def __str__(self):
     return self.title
 

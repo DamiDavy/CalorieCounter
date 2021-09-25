@@ -1,0 +1,51 @@
+@use "header";
+@use "food-basket";
+@use "form";
+
+.category-container {
+  min-width: 8rem;
+  max-width: 8rem;
+  height: 8rem;
+  border: header.$primary-border;
+  border-radius: 0.2rem;
+  margin: 1rem;
+  h4 {
+    text-align: center;
+    margin-top: 0.3rem;
+    margin-bottom: 0.18rem;
+  }
+  img {
+    @include food-basket.item-img();
+  }
+  @media (max-width: 700px) {
+    width: 13rem;
+    max-width: 95%;
+    height: 13rem;
+    margin: 0.1rem auto;
+  }
+}
+
+.category-link {
+  text-decoration: none;
+  color: header.$primary-color;
+}
+
+.categories-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  width: 80%;
+  margin: 0 auto;
+  @media (max-width: 700px) {
+    width: 95%;
+    justify-content: center;
+  }
+  @media (max-width: 700px) {
+    display: block;
+  }
+}
+
+.foods-categories-container {
+  @include form.main-container();
+  width: 100%;
+}

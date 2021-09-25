@@ -25,9 +25,9 @@ export function Food() {
 
   function addToBasket(food, weigthFactor) {
     if (isAuth) {
-      dispatch(addFoodToBasketThunk(food.id, +weight))
+      dispatch(addFoodToBasketThunk(food, +weight))
     } else {
-      dispatch(addFoodToBasket(food.id, weigthFactor))
+      dispatch(addFoodToBasket(food, weigthFactor))
     }
     history.push("/");
   }
@@ -35,16 +35,24 @@ export function Food() {
   if (!food) return null
 
   return (
-    <div>
-      <h2>{food.title}</h2>
-      <pre>{`
-          ${(food.calorie_content * weigthFactor).toFixed()} calories
-          ${(food.protein_content * weigthFactor).toFixed(1)} protein
-          ${(food.fat_content * weigthFactor).toFixed(1)} fat
-          ${(food.carbohydrate_content * weigthFactor).toFixed(1)} carbohydrate`}
-      </pre>
-      <input type="text" value={weight} onChange={e => setWeight(e.target.value)} /><span> g</span>
-      <button onClick={() => addToBasket(food, weigthFactor)}>Add To Basket</button>
+    <div className="route-container">
+      <div className="unified-container">
+        <h2>{food.title}</h2>
+        <img className="detail-food-info-img" src={food.image} />
+        <pre>{`
+${Math.round(food.calorie_content * weigthFactor)} calories
+${Math.round(food.protein_content * weigthFactor)} protein
+${Math.round(food.fat_content * weigthFactor)} fat
+${Math.round(food.carbohydrate_content * weigthFactor)} carbohydrate`}
+        </pre>
+        <div className="food-weight-form-container">
+          <input type="number" value={weight}
+            className="weight-input" onChange={e => setWeight(e.target.value)} /><span>g</span>
+          <div className="btn-container" >
+            <button className="add-food-btn" onClick={() => addToBasket(food, weigthFactor)}>Add To Basket</button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

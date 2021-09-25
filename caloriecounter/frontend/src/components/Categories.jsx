@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { getCategories } from '../reducers/foods'
+import '../styles/categories-and-foods.scss';
 
 export default function Categories() {
 
@@ -13,16 +14,24 @@ export default function Categories() {
     dispatch(getCategories())
   }, [])
 
-  const isAuth = useSelector(state => state.auth.isAuth)
-  if (isAuth) return <Redirect to="/app/days" />
+  // const isAuth = useSelector(state => state.auth.isAuth)
+
+  // if (isAuth) return <Redirect to="/app/days" />
 
   return (
-    <div>
-      <h2>Categories</h2>
-      {categories
-        .map(category => <div key={category.id} >
-          <Link to={`/app/category/${category.title}`} >{category.title}</Link>
-        </div>)}
-    </div>
+    <div className="route-container">
+      <div className="foods-categories-container">
+        <h2>Categories</h2>
+        <div className="categories-container">
+          {categories
+            .map(category => <div key={category.id} className="category-container">
+              <Link to={`/app/category/${category.title}`} className="category-link">
+                <h4>{category.title}</h4>
+              </Link>
+              <img src={category.image} />
+            </div>)}
+        </div>
+      </div>
+    </div >
   )
 }

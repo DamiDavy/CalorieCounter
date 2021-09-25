@@ -139,7 +139,15 @@ export const setCalorieContent = (key) => (dispatch, getState) => {
   })
 }
 
-export const addFoodToBasket = (food, weigthFactor) => (dispatch) => {
+export const addFoodToBasket = (food, weigthFactor) => ({
+  type: ADD_FOOD_TO_BASKET,
+  payload: {
+    food,
+    weigthFactor
+  }
+})
+
+export const addFoodToBasketFromDayState = (food, weigthFactor) => dispatch => {
   axios.get(`/api/foods/${food}`)
     .then(res => {
       dispatch({
@@ -157,7 +165,7 @@ export const addFoodToBasket = (food, weigthFactor) => (dispatch) => {
 
 export const addFoodToBasketThunk = (food, weight) => (dispatch, getState) => {
   const date = getState().days.dayToAddFoodIn.id
-  const body = { date, food, weight, date_for_search: date.toString() }
+  const body = { date, food: food.id, weight, date_for_search: date.toString() }
   axios
     .post('/api/food-items/', body, addHeaderWithToken(getState))
     .then(() => {

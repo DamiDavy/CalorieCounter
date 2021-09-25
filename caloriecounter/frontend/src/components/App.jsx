@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { Route, Switch, Redirect, Link } from 'react-router-dom'
+import React, { useEffect, useRef } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Login } from './auth/Login'
 import { Register } from './auth/Register'
 import { PrivateRoute } from './common/PrivateRoute'
 import { useAlert } from 'react-alert'
 
 import { Header } from './Header'
-import { Days } from './private/Days'
+import { Calendar } from './private/Calendar'
 import { loadUser } from '../reducers/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { Search } from './Search'
@@ -16,6 +16,7 @@ import Categories from './Categories'
 import { FoodBasket } from './FoodBasket'
 import { toggleDropdownVisibility } from '../reducers/foods'
 import { CalorieIntake } from './CalorieIntake'
+import '../styles/app.scss';
 
 export function App() {
 
@@ -46,22 +47,29 @@ export function App() {
     }
   }, [errorMessage])
 
+  const main = useRef(null);
+  const aside = useRef(null);
+
   return (
     <div onClick={() => dispatch(toggleDropdownVisibility(false))}>
-      <Header />
+      <Header aside={aside} main={main} />
       <Search />
-      <FoodBasket />
-      <main>
-        <Switch>
-          <Route exact path="/" component={Categories} />
-          <PrivateRoute exact path="/app/days" component={Days} />
-          <Route exact path="/app/category/:category" component={Category} />
-          <Route exact path="/app/food/:food" component={Food} />
-          <Route exact path="/app/calorie-intake" component={CalorieIntake} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-        </Switch>
-      </main>
-    </div>
+      <div className="flex-cont-for-main-and-basket">
+        <main ref={main}>
+          <Switch>
+            <Route exact path="/" component={Categories} />
+            <PrivateRoute exact path="/app/days" component={Calendar} />
+            <Route exact path="/app/category/:category" component={Category} />
+            <Route exact path="/app/food/:food" component={Food} />
+            <Route exact path="/app/calorie-intake" component={CalorieIntake} />
+            <Route exact path="/app/login" component={Login} />
+            <Route exact path="/app/register" component={Register} />
+          </Switch>
+        </main>
+        <aside ref={aside}>
+          <FoodBasket aside={aside} main={main} />
+        </aside>
+      </div>
+    </div >
   )
 }

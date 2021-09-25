@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createOrUpdateUserRecomendedIntakeThunk } from '../reducers/intake'
+import '../styles/_form.scss';
 
 export function CalorieIntake() {
 
@@ -46,7 +47,7 @@ export function CalorieIntake() {
   function inputValidationOnBlur(e, state) {
     if (state <= 0) {
       setError('field must contain positive number')
-      e.target.style.border = `2px solid IndianRed`
+      e.target.style.border = '2px solid #bf2c36'
     }
   }
 
@@ -81,61 +82,66 @@ export function CalorieIntake() {
   }
 
   return (
-    <div>
-      <form>
-        <h3>Calculate Your Recommended Daily Calorie Intake</h3>
-        <input type="number" name="height" placeholder="height" value={height}
-          onChange={e => validateNumberInput(e.target.name, e.target.value)}
-          onBlur={e => inputValidationOnBlur(e, height)}
-          onClick={e => clearError(e)} /><span>cm</span><br />
-        <input type="number" name="weight" placeholder="weight" value={weight}
-          onChange={e => validateNumberInput(e.target.name, e.target.value)}
-          onBlur={e => inputValidationOnBlur(e, weight)}
-          onClick={e => clearError(e)} /><span>kg</span><br />
-        <input type="number" name="age" placeholder="age" value={age}
-          onChange={e => validateNumberInput(e.target.name, e.target.value)}
-          onBlur={e => inputValidationOnBlur(e, age)}
-          onClick={e => clearError(e)} /><span>years</span><br />
-        <p>Gender</p>
-        <div>
-          <input type="radio" id="male" value={sexInputs[0]}
-            checked={sexInputs[0] === sexChecked}
-            onChange={e => handleRadioInputs('sex', e.target.value)} />
-          <label htmlFor="male">male</label><br />
-          <input type="radio" id="female" value={sexInputs[1]}
-            checked={sexInputs[1] === sexChecked}
-            onChange={e => handleRadioInputs('sex', e.target.value)} />
-          <label htmlFor="female">female</label>
-        </div>
-        <p>Physical activity</p>
-        <div>
-          <input type="radio" id="activity1" value={activityInputs[0]}
-            checked={activityInputs[0] === activityChecked}
-            onChange={e => handleRadioInputs('activity', e.target.value)} />
-          <label>sedentary work, no physical activity</label><br />
-          <input type="radio" id="activity2" value={activityInputs[1]}
-            checked={activityInputs[1] === activityChecked}
-            onChange={e => handleRadioInputs('activity', e.target.value)} />
-          <label>light gymnastics 1-3 times a week</label><br />
-          <input type="radio" id="activity3" value={activityInputs[2]}
-            checked={activityInputs[2] === activityChecked}
-            onChange={e => handleRadioInputs('activity', e.target.value)} />
-          <label>medium intensity workouts 3-5 times a week</label><br />
-          <input type="radio" id="activity4" value={activityInputs[3]}
-            checked={activityInputs[3] === activityChecked}
-            onChange={e => handleRadioInputs('activity', e.target.value)} />
-          <label>daily high intensity workouts</label>
-        </div>
-      </form >
-      <p>{error}</p>
-      <p>Your recommended daily calorie intake is: {Math.round(calorieIntake)}</p>
-      {
-        isAuth ?
-          <button disabled={height === '' || weight === '' || age === ''}
-            onClick={() => saveRecomendedIntake(Math.round(calorieIntake))}
-          >Save
-          </button> : null
-      }
-    </div >
+    <div className="route-container">
+      <div className="unified-container">
+        <form>
+          <h3>Calculating Recommended Daily Calorie Intake</h3>
+          <input type="number" name="height" placeholder="height" value={height}
+            className="number-input"
+            onChange={e => validateNumberInput(e.target.name, e.target.value)}
+            onBlur={e => inputValidationOnBlur(e, height)}
+            onClick={e => clearError(e)} /><span>cm</span><br />
+          <input type="number" name="weight" placeholder="weight" value={weight}
+            className="number-input"
+            onChange={e => validateNumberInput(e.target.name, e.target.value)}
+            onBlur={e => inputValidationOnBlur(e, weight)}
+            onClick={e => clearError(e)} /><span>kg</span><br />
+          <input type="number" name="age" placeholder="age" value={age}
+            className="number-input"
+            onChange={e => validateNumberInput(e.target.name, e.target.value)}
+            onBlur={e => inputValidationOnBlur(e, age)}
+            onClick={e => clearError(e)} /><span>years</span><br />
+          <h5 className="header-inside-form">Gender</h5>
+          <div class="radio-inputs">
+            <input type="radio" id="male" value={sexInputs[0]}
+              checked={sexInputs[0] === sexChecked}
+              onChange={e => handleRadioInputs('sex', e.target.value)} />
+            <label htmlFor="male">male</label><br />
+            <input type="radio" id="female" value={sexInputs[1]}
+              checked={sexInputs[1] === sexChecked}
+              onChange={e => handleRadioInputs('sex', e.target.value)} />
+            <label htmlFor="female">female</label>
+          </div>
+          <h5 className="header-inside-form">Physical activity</h5>
+          <div class="radio-inputs">
+            <input type="radio" id="activity1" value={activityInputs[0]}
+              checked={activityInputs[0] === activityChecked}
+              onChange={e => handleRadioInputs('activity', e.target.value)} />
+            <label>sedentary work, no physical activity</label><br />
+            <input type="radio" id="activity2" value={activityInputs[1]}
+              checked={activityInputs[1] === activityChecked}
+              onChange={e => handleRadioInputs('activity', e.target.value)} />
+            <label>light gymnastics 1-3 times a week</label><br />
+            <input type="radio" id="activity3" value={activityInputs[2]}
+              checked={activityInputs[2] === activityChecked}
+              onChange={e => handleRadioInputs('activity', e.target.value)} />
+            <label>medium intensity workouts 3-5 times a week</label><br />
+            <input type="radio" id="activity4" value={activityInputs[3]}
+              checked={activityInputs[3] === activityChecked}
+              onChange={e => handleRadioInputs('activity', e.target.value)} />
+            <label>daily high intensity workouts</label>
+          </div>
+        </form >
+        <p className="form-error">{error}</p>
+        <p>Your recommended daily calorie intake is: {Math.round(calorieIntake)}</p>
+        {
+          isAuth ? height === '' || weight === '' || age === '' || !sexChecked || !activityChecked ?
+            <button disabled className="login-reg-submit-btn-disabled" >Save</button> :
+            <button className="login-reg-submit-btn"
+              onClick={() => saveRecomendedIntake(Math.round(calorieIntake))} >Save
+            </button> : null
+        }
+      </div >
+    </div>
   )
 }

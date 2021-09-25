@@ -23,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Category
-    fields = ('id', 'title', 'foods',)
+    fields = ('id', 'title', 'image', 'foods',)
 
 class FoodItemSerializer(serializers.ModelSerializer):
   class Meta:
