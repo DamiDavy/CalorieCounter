@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import { addFoodToBasket, foodsSearch, addFoodToBasketThunk } from '../reducers/foods'
 
-export function Food() {
+export function Food({ aside, main }) {
 
   const [weight, setWeight] = useState(100)
 
@@ -23,13 +23,23 @@ export function Food() {
 
   let history = useHistory();
 
+  const basketDate = useSelector(state => state.days.dayToAddFoodIn)
+
   function addToBasket(food, weigthFactor) {
     if (isAuth) {
-      dispatch(addFoodToBasketThunk(food, +weight))
+      dispatch(addFoodToBasketThunk(food, +weight, basketDate.day))
     } else {
       dispatch(addFoodToBasket(food, weigthFactor))
     }
-    history.push("/");
+    if (window.innerWidth <= 700) {
+      main.current.style.display = 'none';
+      aside.current.style.display = 'block';
+    }
+    if (isAuth) {
+      history.push("/app/days");
+    } else {
+      history.push("/");
+    }
   }
 
   if (!food) return null

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { foodsSearch, toggleDropdownVisibility } from '../reducers/foods'
 import '../styles/search-form.scss';
 
-export function Search() {
+export function Search({ aside, main }) {
   const [title, setTitle] = useState('')
 
   const foods = useSelector(state => state.foods.foods)
@@ -19,6 +19,14 @@ export function Search() {
     }
     dispatch(foodsSearch(title))
     dispatch(toggleDropdownVisibility(true))
+  }
+
+  function onClickFoodDetailLink() {
+    if (window.innerWidth <= 700) {
+      aside.current.style.display = 'none'
+    }
+    main.current.style.display = 'block'
+    setTitle('')
   }
 
   return (
@@ -35,7 +43,8 @@ export function Search() {
             <button type="button" className="clear-input"
               onClick={() => setTitle('')}>&#215;</button>
             {dropDownIsVisible ? <div className="search-dropdown">
-              {foods.map(food => <div key={food.id}><Link className="search-result-link" onClick={() => setTitle('')}
+              {foods.map(food => <div key={food.id}><Link className="search-result-link"
+                onClick={onClickFoodDetailLink}
                 to={`/app/food/${food.title}`}>{food.title}</Link></div>)}
             </div> : null}
           </div>

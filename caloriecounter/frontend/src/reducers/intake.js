@@ -37,8 +37,7 @@ export const getUserRecomendedIntakeThunk = () => (dispatch, getState) => {
           payload: res.data[0]
         })
       }
-    }
-    )
+    })
     .catch(error => {
       dispatch(errorAC(error.toJSON().message, error.response.status))
     })
@@ -51,27 +50,27 @@ export const createOrUpdateUserRecomendedIntakeThunk = (daily_calorie_intake) =>
     const intakeId = getState().intake.intake.id
     axios.put(`/api/daily-calorie-intake/${intakeId}/`, body, addHeaderWithToken(getState))
       .then(res => {
-        dispatch(createSuccessMessage('Recomended Calorie Input Updated'))
+        dispatch(createSuccessMessage('Recomended Calorie Input Was Updated'))
         dispatch({
           type: SET_RECOMMENDED_INTAKE,
           payload: res.data[0].daily_calorie_intake
         })
       })
       .catch(error => {
-        dispatch(errorAC(error.toJSON().message, error.response.status))
+        dispatch(errorAC("There Was An Error", error.response.status))
       })
   }
   else {
     axios.post(`/api/daily-calorie-intake/`, body, addHeaderWithToken(getState))
       .then(res => {
-        dispatch(createSuccessMessage('Recomended Calorie Input Created'))
+        dispatch(createSuccessMessage('Recomended Calorie Input Was Created'))
         dispatch({
           type: SET_RECOMMENDED_INTAKE,
           payload: res.data[0].daily_calorie_intake
         })
       })
       .catch(error => {
-        dispatch(errorAC(error.toJSON().message, error.response.status))
+        dispatch(errorAC("There Was An Error", error.response.status))
       })
   }
 }

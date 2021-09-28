@@ -9,7 +9,10 @@
   border: header.$primary-border;
   border-radius: 0.2rem;
   margin: 1rem;
+  background-color: white;
+  box-shadow: header.$shadow;
   h4 {
+    font-size: 1rem;
     text-align: center;
     margin-top: 0.3rem;
     margin-bottom: 0.18rem;
@@ -18,9 +21,9 @@
     @include food-basket.item-img();
   }
   @media (max-width: 700px) {
-    width: 13rem;
+    width: 15rem;
     max-width: 95%;
-    height: 13rem;
+    height: 15rem;
     margin: 0.1rem auto;
   }
 }
@@ -33,7 +36,6 @@
 .categories-container {
   display: flex;
   flex-wrap: wrap;
-  background-color: white;
   width: 80%;
   margin: 0 auto;
   @media (max-width: 700px) {
@@ -48,4 +50,8 @@
 .foods-categories-container {
   @include form.main-container();
   width: 100%;
+  @media (max-width: 700px) {
+    max-width: 100%;
+    height: auto;
+  }
 }

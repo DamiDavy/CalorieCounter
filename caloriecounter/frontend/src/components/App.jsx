@@ -17,6 +17,7 @@ import { FoodBasket } from './FoodBasket'
 import { toggleDropdownVisibility } from '../reducers/foods'
 import { CalorieIntake } from './CalorieIntake'
 import '../styles/app.scss';
+import foodsimg from '../assets/vegetables.jpg'
 
 export function App() {
 
@@ -50,17 +51,27 @@ export function App() {
   const main = useRef(null);
   const aside = useRef(null);
 
+  function hideDropdowns() {
+    dispatch(toggleDropdownVisibility(false))
+  }
+
   return (
-    <div onClick={() => dispatch(toggleDropdownVisibility(false))}>
+    <div onClick={hideDropdowns}>
       <Header aside={aside} main={main} />
-      <Search />
+      <img src={foodsimg} className="back-img" />
+      <div className="background-opacity"></div>
+      <Search aside={aside} main={main} />
       <div className="flex-cont-for-main-and-basket">
         <main ref={main}>
           <Switch>
             <Route exact path="/" component={Categories} />
-            <PrivateRoute exact path="/app/days" component={Calendar} />
+            <PrivateRoute exact path="/app/days" component={Calendar} aside={aside} main={main} />
             <Route exact path="/app/category/:category" component={Category} />
-            <Route exact path="/app/food/:food" component={Food} />
+            <Route exact path="/app/food/:food"
+              render={(props) => (
+                <Food {...props} aside={aside} main={main} />
+              )}
+            />
             <Route exact path="/app/calorie-intake" component={CalorieIntake} />
             <Route exact path="/app/login" component={Login} />
             <Route exact path="/app/register" component={Register} />

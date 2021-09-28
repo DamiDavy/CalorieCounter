@@ -72,7 +72,7 @@ export const loadUser = () => (dispatch, getState) => {
         payload: res.data
       })
     })
-    .catch(error => {
+    .catch(() => {
       dispatch({ type: AUTH_ERROR })
     })
 }
@@ -89,7 +89,7 @@ export const loginUser = (username, password) => dispatch => {
     .then(res => {
       dispatch({
         type: SET_MESSAGE,
-        payload: `Hey, ${username}`
+        payload: `Hey, ${username}!`
       })
       dispatch({
         type: LOGIN_SUCCESS,
@@ -97,7 +97,7 @@ export const loginUser = (username, password) => dispatch => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
       dispatch({ type: LOGIN_FAIL })
     })
 }
@@ -116,7 +116,7 @@ export const logoutUser = () => (dispatch, getState) => {
       dispatch(clearRecomendedIntake())
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     })
 }
 
@@ -140,7 +140,7 @@ export const registerUser = (username, email, password) => dispatch => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
       dispatch({ type: REGISTER_FAIL })
     })
 }

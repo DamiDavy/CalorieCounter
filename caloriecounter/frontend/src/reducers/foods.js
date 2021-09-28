@@ -2,7 +2,7 @@ import axios from 'axios'
 import { addHeaderWithToken } from './auth'
 
 import { errorAC, GET_ERRORS } from './errors'
-import { SET_MESSAGE } from './success'
+import { createSuccessMessage, SET_MESSAGE } from './success'
 
 const GET_FOODS = 'GET_FOODS'
 const GET_CATEGORIES = 'GET_CATEGORIES'
@@ -12,7 +12,6 @@ const CREATE_DAY_BASKET = 'CREATE_DAY_BASKET'
 const SET_CALORIE_CAPACITY = 'SET_CALORIE_CAPACITY'
 const CLEAR_FOOD_STATE = 'CLEAR_FOOD_STATE'
 const CLEAR_FOOD_BUSKET = 'CLEAR_FOOD_BUSKET'
-const TOGGLE_BUSKET_IS_LOADING = 'TOGGLE_BUSKET_IS_LOADING'
 const DELETE_FOOD_FROM_BASKET = 'DELETE_FOOD_FROM_BASKET'
 
 const initialState = {
@@ -76,16 +75,13 @@ export default function (state = initialState, action) {
 
       if (product !== undefined) {
         const newBasket = state.foodBasket.filter(product => product.food.title !== action.payload.food.title)
-
         product.weigthFactor += action.payload.weigthFactor
 
         return {
           ...state,
           foodBasket: [...newBasket, product]
         }
-
       }
-
       return {
         ...state,
         foodBasket: [...state.foodBasket, action.payload]
@@ -108,7 +104,9 @@ export const deleteFoodFromBasketThunk = (id, day) => (dispatch, getState) => {
   let allDeleted = true
   foodItemsToDelete.forEach(item => {
     axios.delete(`/api/food-items/${item.id}`, addHeaderWithToken(getState))
-      .then(() => { })
+      .then(() => {
+        dispatch(createSuccessMessage('Food Item Was Deleted From Basket'))
+      })
       .catch(error => {
         allDeleted = false
         dispatch(errorAC(error.toJSON().message, error.response.status))
@@ -163,16 +161,23 @@ export const addFoodToBasketFromDayState = (food, weigthFactor) => dispatch => {
     });
 }
 
-export const addFoodToBasketThunk = (food, weight) => (dispatch, getState) => {
+export const addFoodToBasketThunk = (food, weight, day) => (dispatch, getState) => {
   const date = getState().days.dayToAddFoodIn.id
   const body = { date, food: food.id, weight, date_for_search: date.toString() }
   axios
     .post('/api/food-items/', body, addHeaderWithToken(getState))
-    .then(() => {
+    .then(res => {
+      dispatch(createSuccessMessage('Food Item Was Added To Basket'))
       dispatch(addFoodToBasket(food, weight / 100))
+      dispatch({
+        type: CREATE_DAY_BASKET,
+        date: day,
+        payload: res.data
+      })
+      dispatch(setCalorieContent(day))
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     });
 }
 
@@ -191,7 +196,7 @@ export const getCategories = () => dispatch => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     });
 }
 
@@ -206,7 +211,7 @@ export const getUserFoodItems = (date) => (dispatch, getState) => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     })
 }
 

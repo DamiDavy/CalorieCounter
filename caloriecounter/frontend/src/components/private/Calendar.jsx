@@ -6,6 +6,7 @@ import { clearCurrentMonthInfoInDays, createOrGetDay, searchDays, setCalendarIsR
 import { Day } from './Day'
 import { clearCurrentMonthInfoInFoods, clearFoodBusket } from '../../reducers/foods'
 import '../../styles/calendar.scss';
+import { toggleBusketVisibilityForWideScreenAndCalendar } from '../common/toggleBusketVisibility'
 
 
 const weekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
@@ -33,7 +34,7 @@ export const monthInFormat = (month) => {
   return month + 1 < 10 ? `0${month + 1}` : month + 1
 }
 
-export function Calendar() {
+export function Calendar({ aside, main }) {
 
   const dispatch = useDispatch()
 
@@ -54,6 +55,10 @@ export function Calendar() {
   function showBasket(day, month, year) {
     dispatch(createOrGetDay(day, month, year))
     dispatch(clearFoodBusket())
+    aside.current.style.display = 'block';
+    if (window.innerWidth <= 700) {
+      main.current.style.display = 'none';
+    }
   }
 
   const [monthFirstWeekDay, setMonthFirstWeekDay] =
@@ -95,23 +100,25 @@ export function Calendar() {
 
   return (
     <div className="route-container">
-      <div className="unified-container">
+      <div className="foods-categories-container">
         <h2>Calories Calendar</h2>
-        <div className="month-title-and-bottons-container">
-          <button onClick={showPreviousMonth} className="switch-month-btn">&#8249;</button>
-          <h3>{`${capitalize(monthsTitles[month])} ${year}`}</h3>
-          <button onClick={showNextMonth} className="switch-month-btn">&#8250;</button>
-        </div>
-        <div className="calendar-grid">
-          {weekDays.map(day => <div className="week-day-title" key={day}>{day}</div>)}
-          {monthFirstWeekDay !== 0 &&
-            [...Array(monthFirstWeekDay).keys()].map(() => <div
-              key={`empty${uuidv4()}`}></div>)}
+        <div className="calendar-container">
+          <div className="month-title-and-bottons-container">
+            <button onClick={showPreviousMonth} className="switch-month-btn">&#8249;</button>
+            <h4>{`${capitalize(monthsTitles[month])} ${year}`}</h4>
+            <button onClick={showNextMonth} className="switch-month-btn">&#8250;</button>
+          </div>
+          <div className="calendar-grid">
+            {weekDays.map(day => <div className="week-day-title" key={day}>{day}</div>)}
+            {monthFirstWeekDay !== 0 &&
+              [...Array(monthFirstWeekDay).keys()].map(() => <div
+                key={`empty${uuidv4()}`}></div>)}
 
-          {[...Array(lastMonthDay(year, month)).keys()]
-            .map((index) =>
-              <Day key={`num${uuidv4()}`} num={index + 1} days={days}
-                showBasket={showBasket} month={month} year={year} />)}
+            {[...Array(lastMonthDay(year, month)).keys()]
+              .map((index) =>
+                <Day key={`num${uuidv4()}`} num={index + 1} days={days}
+                  showBasket={showBasket} month={month} year={year} />)}
+          </div>
         </div>
       </div>
     </div >

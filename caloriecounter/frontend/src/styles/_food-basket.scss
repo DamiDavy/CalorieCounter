@@ -8,10 +8,14 @@
 .food-basket-container {
   border-left: header.$primary-border;
   height: 100vh;
+  width: 90%;
+  margin: 0 auto;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: whitesmoke;
+  background-color: rgba(247, 247, 247, 0.8);
+  border-radius: 0.2rem;
+  box-shadow: header.$shadow;
   div {
     padding: 0.5rem;
   }
@@ -21,13 +25,16 @@
   }
   h4 {
     @include custom-margins-for-blocks();
+    margin-bottom: 0.5rem;
   }
 }
 
 .food-composition-indexes {
   background-color: white;
-  width: 100%;
-  border-bottom: header.$primary-border;
+  width: 80%;
+  border: none;
+  border-radius: 0.2rem;
+  box-shadow: header.$shadow;
   p, div {
     @include custom-margins-for-blocks();
   } 
@@ -37,10 +44,14 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  background-color: whitesmoke;
 }
+
 .food-items-container {
   @include flex-container();
+  background-color: rgba(51, 170, 51,  0);
+  @media (max-width: 700px) {
+    display: block;
+  }
 }
 
 @mixin item-img {
@@ -72,6 +83,11 @@
   img {
     @include item-img();
   }
+  @media (max-width: 700px) {
+    width: 12rem;
+    height: 12rem;
+    margin: 0 auto;
+  }
 }
 
 .item-container-empty {
@@ -96,9 +112,9 @@
 
 .hide-busket-button {
   @include delete-button();
-  top: 1rem;
-  right: 2rem;
-  font-size: 2rem;
+  top: 0.3rem;
+  left: 0.3rem;
+  font-size: 1.5rem;
 }
 
 %item-info {
@@ -116,4 +132,8 @@
 .item-calories-info {
   @extend %item-info;
   right: 2%;
+}
+
+.empty-basket {
+  text-align: center;
 }

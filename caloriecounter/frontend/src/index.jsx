@@ -1,18 +1,24 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import { positions, Provider as AlertProvider } from 'react-alert'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import './styles/index.scss';
 
 import store from './store'
 import { App } from './components/App'
 
 const options = {
   position: positions.TOP_CENTER,
-  timeout: 5000,
+  timeout: 3000,
   offset: '30px'
 }
+
+const AlertTemplate = ({ style, options, message }) => (
+  <div style={style} className={`alert-${options.type}`}>
+    {message}
+  </div>
+)
 
 const Root = () => (
   <Provider store={store}>

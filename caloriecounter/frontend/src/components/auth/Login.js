@@ -56,12 +56,13 @@ export const Login = () => {
             onBlur={e => inputValidationOnBlur(e, password, 'password')} /><br />
         </form>
         <p className="form-error">{error}</p>
-
-        {login.length < 4 || password.length < 4 ?
-          <button className="login-reg-submit-btn-disabled">Login</button> :
-          <button onClick={submitLoginForm} className="login-reg-submit-btn">
-            Login
-          </button>}
+        <p>
+          {login.length < 4 || password.length < 4 ?
+            <button className="login-reg-submit-btn-disabled">Login</button> :
+            <button onClick={submitLoginForm} className="login-reg-submit-btn">
+              Login
+            </button>}
+        </p>
 
         <p>Or</p>
         <p>

@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addFoodToBasketFromDayState, clearFoodBusket, deleteFoodFromBasket, deleteFoodFromBasketThunk } from '../reducers/foods'
+import { addFoodToBasketFromDayState, deleteFoodFromBasket, deleteFoodFromBasketThunk } from '../reducers/foods'
 import { monthsTitles } from './private/Calendar'
 import '../styles/_food-basket.scss';
 import { toggleBusketVisibility } from './common/toggleBusketVisibility';
+import { Link } from 'react-router-dom';
 
 function nutrientsAndCaloriesSum(content) {
   return function (a, b) {
@@ -32,9 +33,6 @@ export function FoodBasket({ aside, main }) {
     if (isAuth && basketDate && basketContent) {
       basketContent.forEach(item => dispatch(addFoodToBasketFromDayState(item.food, item.weight / 100)))
     }
-    // return () => {
-    //   dispatch(clearFoodBusket())
-    // };
   }, [basketDate])
 
   const basketDateInformat = useMemo(() => {
@@ -53,9 +51,9 @@ export function FoodBasket({ aside, main }) {
 
   return (
     <div className="food-basket-container">
+      <h3>Food Basket</h3>
+      <h4>{basketDateInformat}</h4>
       <div className="food-composition-indexes">
-        <h3>Food Basket</h3>
-        <h4>{basketDateInformat}</h4>
         <p>Calories:
           {basket.length > 0 ? basket.length === 1 ?
             basket[0].food.calorie_content * +basket[0].weigthFactor :
@@ -81,14 +79,15 @@ export function FoodBasket({ aside, main }) {
           onClick={() => toggleBusketVisibility(aside, main)}>&#215;</button>
       </div>
       <div className="food-items-container">
-        {basket.map(product => <div className="item-container" key={product.food.id}>
+        {basket.length !== 0 ? basket.map(product => <div className="item-container" key={product.food.id}>
           <h6>{product.food.title}</h6>
           <img src={product.food.image} />
           <button className="delete-item-from-basket-button"
             onClick={() => deleteFood(product.food.id)}>&#215;</button>
-          <span className="item-weight-info">{product.weigthFactor * 100}g</span>
+          <span className="item-weight-info">{Math.round(product.weigthFactor * 100)}g</span>
           <span className="item-calories-info">{Math.round(product.weigthFactor * product.food.calorie_content)}kcal</span>
-        </div>)}
+        </div>) : <div className="empty-basket"><p>No foods in basket</p> {isAuth && !basketDateInformat ?
+          <p>Please, choose the date in <Link to="/app/days" className="header-link">Diary</Link></p> : null}</div>}
         <div className="item-container-empty" key={`empty`}> </div>
       </div>
     </div>

@@ -18,8 +18,8 @@ textarea:focus, input:focus{
   margin: auto;
   padding: 2rem;
   padding-top: 5.5rem;
-  background-color: $secondary-background-color;
-  border-bottom: header.$primary-border;
+  background-color: header.$full-opacity-color;
+  // border-bottom: header.$primary-border;
 }
 
 .food-serch-input-container {
@@ -41,10 +41,12 @@ textarea:focus, input:focus{
   border-radius: 0.5rem;
   font: header.$primary-font;
   text-align: center;
+  color: gray;
 }
 
 .food-search-input {
   @extend %food-search-input-shared;
+  box-shadow: header.$shadow;
 }
 
 .food-search-input-with-dropdown {
@@ -60,6 +62,8 @@ textarea:focus, input:focus{
   position: absolute;
   top: 2.2rem;
   border-radius: 0 0 0.5rem 0.5rem;
+  background-color: white;
+  box-shadow: header.$shadow;
 }
 
 .search-result-link {

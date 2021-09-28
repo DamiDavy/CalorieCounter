@@ -97,12 +97,13 @@ export const Register = () => {
         </form>
         <p className="form-error">{error}</p>
 
-        {login.length < 4 || password.length < 4 || passwordRepeat !== password || email.length < 5 ?
-          <button className="login-reg-submit-btn-disabled">Register</button> :
-          <button onClick={submitRegistrationForm} className="login-reg-submit-btn">
-            Register
-          </button>}
-
+        <p>
+          {login.length < 4 || password.length < 4 || passwordRepeat !== password || email.length < 5 ?
+            <button className="login-reg-submit-btn-disabled">Register</button> :
+            <button onClick={submitRegistrationForm} className="login-reg-submit-btn">
+              Register
+            </button>}
+        </p>
         <p>Or</p>
         <p>
           <Link to='/app/login'>

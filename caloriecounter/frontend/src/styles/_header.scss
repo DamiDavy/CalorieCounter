@@ -3,6 +3,7 @@ $primary-border: 0.05rem solid rgb(218, 216, 216);
 $primary-color: rgb(129, 72, 117);
 $primary-font: 1.1rem Helvetica, sans-serif;
 $full-opacity-color: rgba(117, 190, 218, 0.0);
+$shadow: 0 2px 4px 0 rgba(0,0,0,.2), 0 2.5rem 5rem 0 rgba(0,0,0,.1);
 
 @mixin link {
   text-decoration: none;
@@ -10,6 +11,9 @@ $full-opacity-color: rgba(117, 190, 218, 0.0);
   width: 100%;
   height: 100%;
   color: $primary-color;
+  &:hover {
+    color: #160e15;
+  }
 }
 
 @mixin flex-container() {
@@ -133,10 +137,28 @@ body {
 }
 
 .link-visible-for-wide {
+  position: relative;
   @media (max-width: 700px) {
     width: 50%;
     margin-left:auto;
     padding-top: 0.5rem;
     border-bottom: 1px solid rgb(184, 178, 178);
+  }
+}
+
+.basket-foods-number {
+  position: absolute;
+  right: 0%;
+  font: $primary-font;
+  font-size: 0.6rem;
+  font-weight: bolder;
+  padding: 0.2rem;
+  border: none;
+  border-radius: 30%;
+  background-color: #572229;
+  color: whitesmoke;
+  z-index: 4;
+  @media (min-width: 701px) { 
+    right: 5%;
   }
 }

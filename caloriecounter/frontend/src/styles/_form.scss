@@ -8,8 +8,12 @@
   padding-top: 2rem;
   width: 30rem;
   max-width: 90%;
-  height: 100%;
+  height: 90%;
   margin: 0 auto;
+  background-color: rgba(247, 247, 247, 0.8);
+  border: none;
+  border-radius: 0.2rem;
+  box-shadow: header.$shadow;
   h2 {
     text-align: center;
   }
@@ -23,13 +27,22 @@
 
 .unified-container {
   @include main-container();
+  width: 33rem;
+  max-width: 90%;
+  padding: 2rem;
   pre {
     display: block;
-    width: 16rem;
-    max-width: 80%;
-    padding:0;
+    width: 10rem;
+    max-width: 60%;
+    padding: 0;
     margin: 0 auto;
   }
+}
+
+.calendar-container {
+  @include main-container();
+  padding: 1rem;
+  max-width: 90%;
 }
 
 @mixin text-input {
@@ -76,22 +89,23 @@
 .header-inside-form {
   font: header.$primary-font;
   font-weight: bolder;
-  margin-bottom: 1rem;
+  margin: 1rem 0 0.5rem 0;
 }
 
 .radio-inputs {
   line-height: 1.6;
-  label {
-    margin-left: 0.5rem;
-  }
+}
+
+input[type='radio'] {
+  margin-right: 1rem;
 }
 
 input[type='radio']:after {
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  top: -2px;
-  left: -1px;
+  top: -5px;
+  left: -2px;
   position: relative;
   background-color: #d1d3d1;
   content: '';
@@ -104,8 +118,8 @@ input[type='radio']:checked:after {
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  top: -2px;
-  left: -1px;
+  top: -5px;
+  left: -2px;
   position: relative;
   background-color: header.$primary-color;
   content: '';

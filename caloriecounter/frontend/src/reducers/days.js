@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { addHeaderWithToken } from './auth'
 
-import { errorAC, GET_ERRORS } from './errors'
+import { errorAC } from './errors'
 import { SET_MESSAGE } from './success'
 
 const GET_DAYS = 'GET_DAYS'
@@ -9,7 +9,6 @@ const SET_DAY_TO_ADD_FOOD_IN = 'SET_DAY_TO_ADD_FOOD_IN'
 const ADD_DAY_TO_LOADED = 'ADD_DAY_TO_LOADED'
 const SET_LOADED_BUSKET_DATE = 'ADD_DAY_TO_LOADED_BUSKET'
 const CLEAR_DAYS_STATE = 'CLEAR_DAYS_STATE'
-const ADD_LOADED_BUSKET = 'ADD_LOADED_BUSKET'
 const SET_CALENDAR_IS_RENDERED = 'SET_CALENDAR_IS_RENDERED'
 
 const initialState = {
@@ -89,9 +88,8 @@ export const createOrGetDay = (day, month, year) => (dispatch, getState) => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     })
-
 }
 
 export const searchDays = (year, month) => (dispatch, getState) => {
@@ -104,6 +102,6 @@ export const searchDays = (year, month) => (dispatch, getState) => {
       })
     })
     .catch(error => {
-      dispatch(errorAC(error.toJSON().message, error.response.status))
+      dispatch(errorAC("There Was An Error", error.response.status))
     });
 }

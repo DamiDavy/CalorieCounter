@@ -85,7 +85,7 @@ export function CalorieIntake() {
     <div className="route-container">
       <div className="unified-container">
         <form>
-          <h3>Calculating Recommended Daily Calorie Intake</h3>
+          <h4>Calculating Recommended Daily Calorie Intake</h4>
           <input type="number" name="height" placeholder="height" value={height}
             className="number-input"
             onChange={e => validateNumberInput(e.target.name, e.target.value)}
@@ -114,22 +114,22 @@ export function CalorieIntake() {
           </div>
           <h5 className="header-inside-form">Physical activity</h5>
           <div class="radio-inputs">
-            <input type="radio" id="activity1" value={activityInputs[0]}
+            <label><input type="radio" id="activity1" value={activityInputs[0]}
               checked={activityInputs[0] === activityChecked}
               onChange={e => handleRadioInputs('activity', e.target.value)} />
-            <label>sedentary work, no physical activity</label><br />
-            <input type="radio" id="activity2" value={activityInputs[1]}
+              sedentary work, no physical activity</label>
+            <label><input type="radio" id="activity2" value={activityInputs[1]}
               checked={activityInputs[1] === activityChecked}
               onChange={e => handleRadioInputs('activity', e.target.value)} />
-            <label>light gymnastics 1-3 times a week</label><br />
-            <input type="radio" id="activity3" value={activityInputs[2]}
+              light gymnastics 1-3 times a week</label><br />
+            <label><input type="radio" id="activity3" value={activityInputs[2]}
               checked={activityInputs[2] === activityChecked}
               onChange={e => handleRadioInputs('activity', e.target.value)} />
-            <label>medium intensity workouts 3-5 times a week</label><br />
-            <input type="radio" id="activity4" value={activityInputs[3]}
+              medium intensity workouts 3-5 times a week</label>
+            <label><input type="radio" id="activity4" value={activityInputs[3]}
               checked={activityInputs[3] === activityChecked}
               onChange={e => handleRadioInputs('activity', e.target.value)} />
-            <label>daily high intensity workouts</label>
+              daily high intensity workouts</label>
           </div>
         </form >
         <p className="form-error">{error}</p>

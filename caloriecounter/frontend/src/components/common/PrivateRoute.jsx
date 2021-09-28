@@ -13,7 +13,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
       } else if (!auth.isAuth) {
         return <Redirect to='/app/login' />
       } else {
-        return <Component {...props} />
+        return <Component {...props} {...rest} />
       }
     }}
   />

@@ -9,6 +9,8 @@ export function Day({ num, days, showBasket, month, year }) {
 
   const dispatch = useDispatch()
 
+  const foodItems = useSelector(state => state.foods[num])
+
   useEffect(() => {
     days.map(day => {
       if (+day.day === num) {
@@ -16,8 +18,6 @@ export function Day({ num, days, showBasket, month, year }) {
       }
     })
   }, [])
-
-  const foodItems = useSelector(state => state.foods[num])
 
   const loadedDays = useSelector(state => state.days.datesWereLoaded)
 
@@ -29,6 +29,7 @@ export function Day({ num, days, showBasket, month, year }) {
 
   useEffect(() => {
     if (foodItems && !loadedDays.includes(num)) {
+      console.log("count!")
       dispatch(addDayToLoaded(num))
       dispatch(setCalorieContent(num))
     }
