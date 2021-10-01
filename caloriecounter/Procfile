@@ -1,1 +1,1 @@
-web: gunicorn calendarAPI.wsgi --log-file -
+web: gunicorn caloriecounter.wsgi --log-file -
