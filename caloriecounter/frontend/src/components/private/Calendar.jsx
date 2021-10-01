@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { clearCurrentMonthInfoInDays, createOrGetDay, searchDays, setCalendarIsRendered } from '../../reducers/days'
 import { Day } from './Day'
 import { clearCurrentMonthInfoInFoods, clearFoodBusket } from '../../reducers/foods'
-import '../../styles/calendar.scss';
-import { toggleBusketVisibilityForWideScreenAndCalendar } from '../common/toggleBusketVisibility'
-
+import '../../styles/calendar.scss'
 
 const weekDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
 export const monthsTitles = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
@@ -44,7 +42,7 @@ export function Calendar({ aside, main }) {
 
   useEffect(() => {
     if (!calendarIsRendered) {
-      dispatch(createOrGetDay(now.getDate(), monthInFormat(now.getMonth()), now.getFullYear()))
+      // dispatch(createOrGetDay(now.getDate(), monthInFormat(now.getMonth()), now.getFullYear()))
       dispatch(setCalendarIsRendered())
     }
   }, [])

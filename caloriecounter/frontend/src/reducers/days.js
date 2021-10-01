@@ -7,9 +7,11 @@ import { SET_MESSAGE } from './success'
 const GET_DAYS = 'GET_DAYS'
 const SET_DAY_TO_ADD_FOOD_IN = 'SET_DAY_TO_ADD_FOOD_IN'
 const ADD_DAY_TO_LOADED = 'ADD_DAY_TO_LOADED'
+const DELETE_DAY_FROM_LOADED = 'DELETE_DAY_FROM_LOADED'
 const SET_LOADED_BUSKET_DATE = 'ADD_DAY_TO_LOADED_BUSKET'
 const CLEAR_DAYS_STATE = 'CLEAR_DAYS_STATE'
 const SET_CALENDAR_IS_RENDERED = 'SET_CALENDAR_IS_RENDERED'
+export const DROP_CALENDAR_STATE_ON_LOGOUT = 'DROP_CALENDAR_STATE_ON_LOGOUT'
 
 const initialState = {
   days: [],
@@ -22,6 +24,8 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case DROP_CALENDAR_STATE_ON_LOGOUT:
+      return initialState
     case SET_CALENDAR_IS_RENDERED:
       return {
         ...state,
@@ -54,6 +58,11 @@ export default function (state = initialState, action) {
         ...state,
         datesWereLoaded: [...state.datesWereLoaded, action.payload]
       }
+    case DELETE_DAY_FROM_LOADED:
+      return {
+        ...state,
+        datesWereLoaded: state.datesWereLoaded.filter(item => +item != +action.payload)
+      }
     default:
       return state
   }
@@ -65,6 +74,13 @@ export const setCalendarIsRendered = () => ({ type: SET_CALENDAR_IS_RENDERED })
 export const addDayToLoaded = (num) => {
   return {
     type: ADD_DAY_TO_LOADED,
+    payload: num
+  }
+}
+
+export const deleteDayFromLoaded = (num) => {
+  return {
+    type: DELETE_DAY_FROM_LOADED,
     payload: num
   }
 }

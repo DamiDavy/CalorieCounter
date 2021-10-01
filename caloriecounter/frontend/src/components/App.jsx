@@ -56,7 +56,7 @@ export function App() {
   }
 
   return (
-    <div onClick={hideDropdowns}>
+    <div onClick={hideDropdowns} className="main-app-container">
       <Header aside={aside} main={main} />
       <img src={foodsimg} className="back-img" />
       <div className="background-opacity"></div>
@@ -81,6 +81,7 @@ export function App() {
           <FoodBasket aside={aside} main={main} />
         </aside>
       </div>
+      <footer className="footer">by LexLex</footer>
     </div >
   )
 }

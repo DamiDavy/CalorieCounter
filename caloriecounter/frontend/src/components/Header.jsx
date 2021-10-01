@@ -5,8 +5,10 @@ import { logoutUser } from '../reducers/auth'
 import { getUserRecomendedIntakeThunk } from '../reducers/intake'
 import { Link } from 'react-router-dom'
 import '../styles/_header.scss';
-import { toggleBusketVisibility, toggleBusketVisibilityForWideScreenAndCalendar } from './common/toggleBusketVisibility'
-import { toggleDropdownVisibility } from '../reducers/foods'
+import { toggleBusketVisibility, toggleBusketVisibilityForWideScreenAndCalendar }
+  from './common/toggleBusketVisibility'
+import { DROP_CALENDAR_STATE_ON_LOGOUT } from '../reducers/days'
+import { DROP_FOODS_STATE_ON_LOGOUT } from '../reducers/foods'
 
 export function Header({ aside, main }) {
 
@@ -24,38 +26,61 @@ export function Header({ aside, main }) {
     if (isAuth) {
       dispatch(getUserRecomendedIntakeThunk())
     }
-  }, [isAuth])
+  }, [isAuth, dispatch])
 
   const categoriesLink = useRef(null);
   const diaryLink = useRef(null);
   const intakeLink = useRef(null);
   const authLinks = useRef(null);
+  const opacityContainer = useRef(null);
 
   function hideHeaderDropDown() {
     categoriesLink.current.style.display = 'none';
     diaryLink.current.style.display = 'none';
     intakeLink.current.style.display = 'none';
     authLinks.current.style.display = 'none';
+    opacityContainer.current.style.display = 'none';
   }
 
   function toggleLinksVisibility() {
     if (categoriesLink.current.style.display === 'none') {
-      dispatch(toggleDropdownVisibility(true))
       categoriesLink.current.style.display = 'block';
       diaryLink.current.style.display = 'block';
       intakeLink.current.style.display = 'block';
       authLinks.current.style.display = 'block';
+      opacityContainer.current.style.display = 'block';
     } else {
       hideHeaderDropDown()
+    }
+  }
+
+  function closeBaskeAndHeaderDropDown() {
+    if (window.innerWidth <= 700) {
+      hideHeaderDropDown()
+      aside.current.style.display = 'none'
+      main.current.style.display = 'block'
+    }
+  }
+
+  function logoutAndDropState() {
+    dispatch(logoutUser())
+    dispatch({ type: DROP_CALENDAR_STATE_ON_LOGOUT })
+    dispatch({ type: DROP_FOODS_STATE_ON_LOGOUT })
+    if (window.innerWidth <= 700) {
+      hideHeaderDropDown()
+      aside.current.style.display = 'none'
+      main.current.style.display = 'block'
     }
   }
 
   const basket = useSelector(state => state.foods.foodBasket)
 
   const guestButtons = <>
-    <div><Link className="header-link" to={'/app/login'}>Login</Link></div>
+    <div><Link className="header-link" onClick={closeBaskeAndHeaderDropDown} to={'/app/login'} >
+      Login</Link></div>
     <div className="header-text">Or</div>
-    <div><Link className="header-link" to={'/app/register'}>Register</Link></div>
+    <div><Link className="header-link" onClick={closeBaskeAndHeaderDropDown} to={'/app/register'} >
+      Register</Link></div>
   </>
 
   const authButtons = <>
@@ -63,10 +88,12 @@ export function Header({ aside, main }) {
       {user ? <>as <span className="username-in-header">{user.username}</span></> : null}<br />
       {intake ? <span className="kcal-in-header">({intake} kcal)</span> : null}
     </div>
-    <button className="logout-button" onClick={() => dispatch(logoutUser())}>Logout</button>
+    <button className="logout-button" onClick={logoutAndDropState}>Logout</button>
   </>
 
-  return (
+  return (<>
+    <div className="cover-for-dropdown-closing-onclick" ref={opacityContainer}
+      onClick={() => hideHeaderDropDown()}></div>
     <header className="header-container">
       <div className="flex-for-small">
         <Link className="header-link" to="/"><h2 className="header">Food Diary</h2></Link>
@@ -89,14 +116,16 @@ export function Header({ aside, main }) {
       </div>
 
       <div>
-        <Link className="header-link link-visible-for-wide" to="/" ref={categoriesLink}>Categories</Link>
+        <Link className="header-link link-visible-for-wide" to="/" ref={categoriesLink}
+          onClick={closeBaskeAndHeaderDropDown}>Categories</Link>
       </div>
       <div>
-        <Link className="header-link link-visible-for-wide" to="/app/days" ref={diaryLink}>Diary</Link>
+        <Link className="header-link link-visible-for-wide" to="/app/days" ref={diaryLink}
+          onClick={closeBaskeAndHeaderDropDown}>Diary</Link>
       </div>
       <div>
-        <Link className="header-link link-visible-for-wide" to="/app/calorie-intake"
-          ref={intakeLink}>Calorie Intake</Link>
+        <Link className="header-link link-visible-for-wide" to="/app/calorie-intake" ref={intakeLink}
+          onClick={closeBaskeAndHeaderDropDown}>Calorie Intake</Link>
       </div>
 
       <div>
@@ -112,5 +141,6 @@ export function Header({ aside, main }) {
       </div>
 
     </header>
+  </>
   )
 }

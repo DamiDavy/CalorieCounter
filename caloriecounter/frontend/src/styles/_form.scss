@@ -1,14 +1,14 @@
 @use "header";
 
-.route-container {
-  height: 100vh;
-}
+// .route-container {
+//   height: calc(100vh - 2rem);
+// }
 
 @mixin main-container {
   padding-top: 2rem;
   width: 30rem;
   max-width: 90%;
-  height: 90%;
+  height: calc(100vh - 4rem);
   margin: 0 auto;
   background-color: rgba(247, 247, 247, 0.8);
   border: none;
@@ -28,7 +28,7 @@
 .unified-container {
   @include main-container();
   width: 33rem;
-  max-width: 90%;
+  max-width: 100%;
   padding: 2rem;
   pre {
     display: block;
@@ -43,6 +43,7 @@
   @include main-container();
   padding: 1rem;
   max-width: 90%;
+  height: calc(100vh - 7rem);
 }
 
 @mixin text-input {

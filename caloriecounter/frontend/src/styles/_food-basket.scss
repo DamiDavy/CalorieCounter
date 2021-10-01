@@ -59,7 +59,7 @@
   width: 70%;
   height: 70%;
   object-fit: cover;
-  margin: auto;
+  margin: auto auto 0.1rem;
   border: header.$primary-border;
   border-radius: 0.1rem;
 }
@@ -84,9 +84,12 @@
     @include item-img();
   }
   @media (max-width: 700px) {
-    width: 12rem;
-    height: 12rem;
-    margin: 0 auto;
+    min-width: 75vw;
+    min-height: 50vw;
+    margin: 0.1rem auto;
+    h6 {
+      font-size: 1.2rem;
+    }
   }
 }
 
@@ -122,6 +125,10 @@
   font-size: 0.8rem;
   position: absolute;
   bottom: 2%;
+  background-color: white;
+  padding: 0.3rem;
+  border: none;
+  border-radius: 0.3rem;
 }
 
 .item-weight-info {
@@ -136,4 +143,12 @@
 
 .empty-basket {
   text-align: center;
+}
+
+.link-to-choose-day-in-calendar {
+  text-decoration: underline;
+  color: header.$primary-color;
+  &:hover {
+    color: #160e15;
+    }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDayToLoaded } from '../../reducers/days'
-import { getUserFoodItems, setCalorieContent } from '../../reducers/foods'
+import { getUserFoodItems } from '../../reducers/foods'
 import { monthInFormat } from './Calendar'
 import '../../styles/calendar.scss';
 
@@ -9,12 +9,13 @@ export function Day({ num, days, showBasket, month, year }) {
 
   const dispatch = useDispatch()
 
-  const foodItems = useSelector(state => state.foods[num])
+  const foodItems = useSelector(state => state.foods[`${num}-${monthInFormat(month)}`])
+  const calorieCapacity = useSelector(state => state.foods.calories[`${num}-${monthInFormat(month)}`])
 
   useEffect(() => {
-    days.map(day => {
-      if (+day.day === num) {
-        dispatch(getUserFoodItems(day))
+    days.map(date => {
+      if (+date.day === num && !loadedDays.includes(num)) {
+        dispatch(getUserFoodItems(date))
       }
     })
   }, [])
@@ -29,13 +30,11 @@ export function Day({ num, days, showBasket, month, year }) {
 
   useEffect(() => {
     if (foodItems && !loadedDays.includes(num)) {
-      console.log("count!")
       dispatch(addDayToLoaded(num))
-      dispatch(setCalorieContent(num))
+      // dispatch(cleanDayCalorieContent(num))
+      // dispatch(setCalorieContent(num))
     }
-  }, [foodItems])
-
-  const calorieCapacity = useSelector(state => state.foods.calories[num])
+  }, [foodItems, loadedDays, dispatch])
 
   function dayColor() {
     const ratio = +calorieCapacity / +intake

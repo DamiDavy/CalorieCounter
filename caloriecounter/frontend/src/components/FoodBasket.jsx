@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addFoodToBasketFromDayState, deleteFoodFromBasket, deleteFoodFromBasketThunk } from '../reducers/foods'
-import { monthsTitles } from './private/Calendar'
+import { addFoodToBasketFromDayState, cleanDayCalorieContent, deleteFoodFromBasket, deleteFoodFromBasketDay, deleteFoodFromBasketThunk, getUserFoodItems, setCalorieContent } from '../reducers/foods'
+import { monthInFormat, monthsTitles } from './private/Calendar'
 import '../styles/_food-basket.scss';
 import { toggleBusketVisibility } from './common/toggleBusketVisibility';
+import { createOrGetDay } from '../reducers/days';
 import { Link } from 'react-router-dom';
 
 function nutrientsAndCaloriesSum(content) {
@@ -15,37 +16,63 @@ function nutrientsAndCaloriesSum(content) {
 
 export function FoodBasket({ aside, main }) {
 
+  const basketDate = useSelector(state => state.days.dayToAddFoodIn)
+
   const dispatch = useDispatch()
 
   const basket = useSelector(state => state.foods.foodBasket)
-  const basketDate = useSelector(state => state.days.dayToAddFoodIn)
-  const basketContent = useSelector(state => state.foods[dayOfMonth(basketDate)])
+
+  const basketContent = useSelector(state => state.foods[dateAsKey(basketDate)])
 
   const isAuth = useSelector(state => state.auth.isAuth)
 
-  function dayOfMonth(basketDate) {
+  function dateAsKey(basketDate) {
     if (basketDate) {
-      return basketDate.day
+      return `${basketDate.day}-${basketDate.month}`
     }
   }
 
+  // const basketDateIsToday = basketDate ?
+  //   +basketDate.day === +now.getDate() && +basketDate.month === +monthInFormat(now.getMonth())
+  //   && +basketDate.year === +now.getFullYear() : false
+
+  // console.log(basketDateIsToday)
+
   useEffect(() => {
-    if (isAuth && basketDate && basketContent) {
+    if (basketDate && isAuth && basketContent) {
       basketContent.forEach(item => dispatch(addFoodToBasketFromDayState(item.food, item.weight / 100)))
     }
-  }, [basketDate])
+  }, [isAuth, basketDate])
+
+  // useEffect(() => {
+  //   console.log(isAuth, basketDate)
+  //   if (isAuth && !basketDate) {
+  //     const now = new Date()
+  //     dispatch(createOrGetDay(now.getDate(), monthInFormat(now.getMonth()), now.getFullYear()))
+  //   }
+  // }, [isAuth, basketDate])
 
   const basketDateInformat = useMemo(() => {
     if (basketDate) {
-      return `${basketDate.day} ${monthsTitles[+basketDate.month - 1]} ${basketDate.year}`
+      return `${basketDate.day} ${monthsTitles[+basketDate.month - 1]} ${basketDate.year} `
     }
   }, [basketDate])
 
   function deleteFood(id) {
-    if (isAuth) {
-      dispatch(deleteFoodFromBasketThunk(id, basketDate.day))
+    if (isAuth && basketDate) {
+      dispatch(deleteFoodFromBasketThunk(id, basketDate))
+      dispatch(deleteFoodFromBasketDay(id, basketDate))
+      dispatch(cleanDayCalorieContent(basketDate))
+      dispatch(setCalorieContent(basketDate))
     } else {
       dispatch(deleteFoodFromBasket(id))
+    }
+  }
+
+  function hideBasketOnSmallScreen() {
+    if (window.innerWidth <= 700) {
+      aside.current.style.display = 'none';
+      main.current.style.display = 'block';
     }
   }
 
@@ -56,24 +83,24 @@ export function FoodBasket({ aside, main }) {
       <div className="food-composition-indexes">
         <p>Calories:
           {basket.length > 0 ? basket.length === 1 ?
-            basket[0].food.calorie_content * +basket[0].weigthFactor :
-            basket.reduce(nutrientsAndCaloriesSum('calorie')).toFixed(1) : 0}</p>
+            Math.round(basket[0].food.calorie_content * +basket[0].weigthFactor) :
+            Math.round(basket.reduce(nutrientsAndCaloriesSum('calorie'))) : 0} kcal</p>
         <p>Protein:
           {basket.length > 0 ? basket.length === 1 ?
-            (basket[0].food.protein_content * +basket[0].weigthFactor) :
-            basket.reduce(nutrientsAndCaloriesSum('protein')).toFixed(1) : 0}</p>
+            basket[0].food.protein_content * +basket[0].weigthFactor.toFixed(1) :
+            basket.reduce(nutrientsAndCaloriesSum('protein')).toFixed(1) : 0} g</p>
         <p>Fat:
           {basket.length > 0 ? basket.length === 1 ?
-            (basket[0].food.fat_content * +basket[0].weigthFactor) :
-            basket.reduce(nutrientsAndCaloriesSum('fat')).toFixed(1) : 0}</p>
+            (basket[0].food.fat_content * +basket[0].weigthFactor).toFixed(1) :
+            basket.reduce(nutrientsAndCaloriesSum('fat')).toFixed(1) : 0} g</p>
         <p>Carbohydrate:
           {basket.length > 0 ? basket.length === 1 ?
-            (basket[0].food.carbohydrate_content * +basket[0].weigthFactor) :
-            basket.reduce(nutrientsAndCaloriesSum('carbohydrate')).toFixed(1) : 0}</p>
+            (basket[0].food.carbohydrate_content * +basket[0].weigthFactor).toFixed(1) :
+            basket.reduce(nutrientsAndCaloriesSum('carbohydrate')).toFixed(1) : 0} g</p>
         <p>Weigth:
           {basket.length > 0 ? basket.length === 1 ?
-            basket[0].weigthFactor * 100 :
-            Math.round(basket.reduce((a, b) => a.weigthFactor * 100 + b.weigthFactor * 100)) : 0}</p>
+            Math.round(basket[0].weigthFactor * 100) :
+            Math.round(basket.reduce((a, b) => a.weigthFactor * 100 + b.weigthFactor * 100)) : 0} g</p>
 
         <button className="hide-busket-button"
           onClick={() => toggleBusketVisibility(aside, main)}>&#215;</button>
@@ -84,10 +111,16 @@ export function FoodBasket({ aside, main }) {
           <img src={product.food.image} />
           <button className="delete-item-from-basket-button"
             onClick={() => deleteFood(product.food.id)}>&#215;</button>
-          <span className="item-weight-info">{Math.round(product.weigthFactor * 100)}g</span>
-          <span className="item-calories-info">{Math.round(product.weigthFactor * product.food.calorie_content)}kcal</span>
-        </div>) : <div className="empty-basket"><p>No foods in basket</p> {isAuth && !basketDateInformat ?
-          <p>Please, choose the date in <Link to="/app/days" className="header-link">Diary</Link></p> : null}</div>}
+          <div className="item-weight-info">{Math.round(product.weigthFactor * 100)}g</div>
+          <div className="item-calories-info">
+            {Math.round(product.weigthFactor * product.food.calorie_content)}kcal
+          </div>
+        </div>) : <div className="empty-basket">
+          <p>No foods in basket</p>
+          {isAuth ? <p>Please, select the date in <Link onClick={hideBasketOnSmallScreen}
+            to="/app/days" className="link-to-choose-day-in-calendar">Calendar</Link>
+          </p> : null}
+        </div>}
         <div className="item-container-empty" key={`empty`}> </div>
       </div>
     </div>

@@ -21,16 +21,21 @@
     @include food-basket.item-img();
   }
   @media (max-width: 700px) {
-    width: 15rem;
-    max-width: 95%;
-    height: 15rem;
+    min-width: 80vw;
+    min-height: 50vw;
     margin: 0.1rem auto;
+    h4 {
+      font-size: 1.2rem;
+    }
   }
 }
 
 .category-link {
   text-decoration: none;
   color: header.$primary-color;
+  &:hover {
+    color: #160e15;
+    }
 }
 
 .categories-container {
@@ -50,6 +55,7 @@
 .foods-categories-container {
   @include form.main-container();
   width: 100%;
+  height: calc(100vh - 2rem);
   @media (max-width: 700px) {
     max-width: 100%;
     height: auto;

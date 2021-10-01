@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
-import { addFoodToBasket, foodsSearch, addFoodToBasketThunk } from '../reducers/foods'
+import { deleteDayFromLoaded } from '../reducers/days'
+import { addFoodToBasket, foodsSearch, addFoodToBasketThunk, clearDayCalorieCapacity, updateDayCalorieContent, getUserFoodItems, cleanDayCalorieContent, setCalorieContent } from '../reducers/foods'
 
 export function Food({ aside, main }) {
 
@@ -27,7 +28,9 @@ export function Food({ aside, main }) {
 
   function addToBasket(food, weigthFactor) {
     if (isAuth) {
-      dispatch(addFoodToBasketThunk(food, +weight, basketDate.day))
+      dispatch(addFoodToBasketThunk(food, +weight))
+      dispatch(getUserFoodItems(basketDate))
+      dispatch(cleanDayCalorieContent(basketDate))
     } else {
       dispatch(addFoodToBasket(food, weigthFactor))
     }

@@ -40,3 +40,15 @@
   background-color: whitesmoke;
   opacity: 0.7;
 }
+
+.main-app-container {
+  position: relative;
+}
+
+.footer {
+  position: absolute;
+  bottom: 1rem;
+  left: 3rem;
+  color: #663e60;
+  font-size: 0.9rem;
+}

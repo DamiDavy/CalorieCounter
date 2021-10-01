@@ -102,7 +102,7 @@ export function CalorieIntake() {
             onBlur={e => inputValidationOnBlur(e, age)}
             onClick={e => clearError(e)} /><span>years</span><br />
           <h5 className="header-inside-form">Gender</h5>
-          <div class="radio-inputs">
+          <div className="radio-inputs">
             <input type="radio" id="male" value={sexInputs[0]}
               checked={sexInputs[0] === sexChecked}
               onChange={e => handleRadioInputs('sex', e.target.value)} />
@@ -113,7 +113,7 @@ export function CalorieIntake() {
             <label htmlFor="female">female</label>
           </div>
           <h5 className="header-inside-form">Physical activity</h5>
-          <div class="radio-inputs">
+          <div className="radio-inputs">
             <label><input type="radio" id="activity1" value={activityInputs[0]}
               checked={activityInputs[0] === activityChecked}
               onChange={e => handleRadioInputs('activity', e.target.value)} />

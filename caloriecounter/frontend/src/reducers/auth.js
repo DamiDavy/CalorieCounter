@@ -97,7 +97,7 @@ export const loginUser = (username, password) => dispatch => {
       })
     })
     .catch(error => {
-      dispatch(errorAC("There Was An Error", error.response.status))
+      dispatch(errorAC("Invalid Username Or Password", error.response.status))
       dispatch({ type: LOGIN_FAIL })
     })
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getCategories } from '../reducers/foods'
 import '../styles/categories-and-foods.scss';
 
@@ -13,10 +13,6 @@ export default function Categories() {
   useEffect(() => {
     dispatch(getCategories())
   }, [])
-
-  // const isAuth = useSelector(state => state.auth.isAuth)
-
-  // if (isAuth) return <Redirect to="/app/days" />
 
   return (
     <div className="route-container">
