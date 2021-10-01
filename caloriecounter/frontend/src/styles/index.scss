@@ -13,9 +13,9 @@
 }
 .alert-success {
   @include alert();
-  background-color: rgb(186, 240, 186);
+  background-color: rgb(161, 243, 219);
 }
 .alert-error {
   @include alert();
-  background-color: rgb(253, 211, 186);
+  background-color: rgb(250, 179, 179);
 }
