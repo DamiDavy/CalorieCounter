@@ -2,11 +2,11 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    index: './frontend/src/index.jsx'
+    index: './src/index.jsx'
   },
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'frontend/static/frontend'),
+    path: path.resolve(__dirname, 'static/frontend'),
   },
   resolve: {
     extensions: ['.jsx', '...'],
@@ -53,9 +53,15 @@ module.exports = {
         test: /\.jsx$/,
         exclude: /node-modules/,
         loader: "babel-loader",
+        // options: {
+        //   presets: [
+        //     "@babel/preset-env", "@babel/preset-react"
+        //   ]
+        // }
         options: {
           presets: [
-            "@babel/preset-env", "@babel/preset-react"
+            '@babel/preset-env', '@babel/react',
+            { 'plugins': ['@babel/plugin-proposal-class-properties'] }
           ]
         }
       }
