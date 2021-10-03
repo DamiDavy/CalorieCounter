@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'foods',
     'rest_framework',
-    'frontend',
     'knox',
     'users',
     'django_filters',
