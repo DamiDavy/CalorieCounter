@@ -2,11 +2,11 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    index: './caloriecounter/frontend/src/index.jsx'
+    index: './frontend/src/index.js'
   },
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'caloriecounter/frontend/static/frontend'),
+    path: path.resolve(__dirname, 'frontend/static/frontend'),
   },
   resolve: {
     extensions: ['.jsx', '...'],

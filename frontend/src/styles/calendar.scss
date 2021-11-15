@@ -1,0 +1,152 @@
+@use "header";
+
+.month-title-and-bottons-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.switch-month-btn {
+  font-size: 2rem;
+  color: header.$primary-color;
+  cursor: pointer;
+  border: none;
+  background-color: header.$full-opacity-color;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0rem;
+}
+
+%month-day {
+  padding: 2.2rem 1rem;
+  text-align: center;
+  font: header.$primary-font;
+  margin: 0;
+  border: 1px solid header.$full-opacity-color;
+}
+
+@media (max-width: 700px) {
+  %month-day {
+    padding: 1.8rem 0.6rem;
+  }
+}
+
+.week-day-title {
+  @extend %month-day;
+}
+
+.day-in-month {
+  @extend %month-day;
+  position: relative;
+  border: 1px solid rgb(223, 221, 221);
+  &:hover {
+    border: 1px solid gray;
+  }
+}
+
+.day-in-month-btn {
+  background-color: header.$full-opacity-color;
+  font: header.$primary-font;
+  color: header.$primary-color;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  margin: 0;
+  top: 0rem;
+  left: 0rem;
+  right: 0rem;
+  bottom: 0rem;
+  padding: 0.1rem 2rem 2rem 0.1rem;
+}
+
+.day-calorie-capacity {
+  position: absolute;
+  bottom: 0.2rem;
+  right: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 10%;
+  padding: 0.2rem;
+}
+
+.blue-day {
+  background-color: rgb(194, 194, 248);
+}
+.green-day {
+  background-color: rgb(129, 224, 129);
+}
+.yellow-day {
+  background-color: rgb(255, 255, 134)
+}
+.orange-day {
+  background-color: rgb(255, 222, 151);
+}
+.red-day {
+  background-color: rgb(247, 159, 159);
+}
+
+.legend-day {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0 0;
+  height: 0.8rem;
+  width: 1.5rem;
+  border: 0.5px solid rgb(206, 204, 204);
+}
+
+.color-info-link {
+  display: block;
+  margin-right: auto;
+  position: relative;
+  font-weight: bold;
+  color: white;
+  padding: 0.3rem;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    rgba(255, 0, 0, 1) 0%,
+    rgba(255, 0, 0, 1) 10%,
+    rgba(255, 154, 0, 1) 20%,
+    rgba(208, 222, 33, 1) 30%,
+    rgba(79, 220, 74, 1) 40%,
+    rgba(63, 218, 216, 1) 50%,
+    rgba(47, 201, 226, 1) 60%,
+    rgba(28, 127, 238, 1) 70%,
+    rgba(95, 21, 242, 1) 80%,
+    rgba(186, 12, 248, 1) 90%
+  );
+}
+
+.color-info-tooltip {
+  font-weight: normal;
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  visibility: hidden;
+  min-width: 3rem;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 1;
+  padding: 0.5rem;
+}
+
+.color-info-link:hover div {
+  visibility: visible;
+}
+
+.legend-text {
+  font-size: 0.9rem;
+}
+
+.legend-for-calendar {
+  margin: 1rem;
+}
